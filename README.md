@@ -2,7 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/wenchiehlee1020/chromium?style=flat-square)](https://hub.docker.com/r/wenchiehlee1020/chromium)
 [![Docker Image Version](https://img.shields.io/docker/v/wenchiehlee1020/chromium?sort=semver&style=flat-square)](https://hub.docker.com/r/wenchiehlee1020/chromium)
-[![Docker Image Size](https://img.shields.io/docker/image-size/wenchiehlee1020/chromium/latest?style=flat-square)](https://hub.docker.com/r/wenchiehlee1020/chromium)
+[![Docker Image Size](https://img.shields.io/docker/image-size/wenchiehlee1020/chromium?style=flat-square)](https://hub.docker.com/r/wenchiehlee1020/chromium)
 
 A production-ready Chromium container image optimized for **Synology NAS (Container Manager)** and Linux servers. Based on `linuxserver/chromium`, this image pre-bakes full Traditional and Simplified Chinese fonts and includes an integrated s6-overlay supervised proxy for remote Chrome DevTools Protocol (CDP) debugging.
 
