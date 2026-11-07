@@ -16,6 +16,9 @@ on:
       - 'README.md'
       - '.github/workflows/**'
 
+permissions:
+  contents: read
+
 jobs:
   build-and-push:
     name: Build & Push Chromium Image
@@ -35,8 +38,10 @@ jobs:
 
       - name: Determine semantic version tag
         id: meta
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          VERSION="${{ inputs.version }}"
+          VERSION="$INPUT_VERSION"
           if [ -z "$VERSION" ] && [ -f "metadata.json" ]; then
             VERSION=$(node -p "try { require('./metadata.json').version } catch(e) { '' }")
           fi

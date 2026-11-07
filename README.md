@@ -24,7 +24,7 @@ A production-ready Chromium container image optimized for **Synology NAS (Contai
 | :--- | :--- | :--- | :--- |
 | `3000` | HTTP | KasmVNC Web Desktop GUI (HTTP) | `3020` |
 | `3001` | HTTPS | KasmVNC Web Desktop GUI (HTTPS) | `3021` |
-| `9222` | TCP | Chromium DevTools Protocol (CDP / WebSocket) | `9222` |
+| `9222` | TCP | Chromium DevTools Protocol (CDP / WebSocket) | `127.0.0.1:9222` (Loopback only) |
 
 ---
 
@@ -43,22 +43,21 @@ services:
     ports:
       - 3020:3000
       - 3021:3001
-      - 9222:9222
+      - 127.0.0.1:9222:9222 # Loopback bind to protect CDP from unauthorized network access
     volumes:
       - ./config:/config
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TITLE=Chromium Desktop
-      - CUSTOM_USER=${CHROMIUM_USER:-user}
-      - PASSWORD=${CHROMIUM_PASSWORD:-password}
+      - CUSTOM_USER=${CHROMIUM_USER:?CHROMIUM_USER is required}
+      - PASSWORD=${CHROMIUM_PASSWORD:?CHROMIUM_PASSWORD is required}
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Taipei
       - NO_DECOR=0
       - CHROME_CLI=--remote-debugging-port=9222 --remote-allow-origins=* --disable-features=FontationsFontBackend https://about:blank
       - LC_ALL=zh_TW.UTF-8
-    security_opt:
-      - seccomp:unconfined
+    # security_opt:
+    #   - seccomp:unconfined # Uncomment only on legacy Docker hosts if browser fails to start
     shm_size: "1gb"
 ```
 
@@ -84,7 +83,7 @@ docker run -d \
   --name chromium \
   -p 3020:3000 \
   -p 3021:3001 \
-  -p 9222:9222 \
+  -p 127.0.0.1:9222:9222 \
   -e TITLE="Chromium Desktop" \
   -e CUSTOM_USER="myuser" \
   -e PASSWORD="mysecurepassword" \
@@ -94,7 +93,6 @@ docker run -d \
   -e CHROME_CLI="--remote-debugging-port=9222 --remote-allow-origins=* --disable-features=FontationsFontBackend https://about:blank" \
   -e LC_ALL=zh_TW.UTF-8 \
   --shm-size="1gb" \
-  --security-opt seccomp:unconfined \
   -v /path/to/config:/config \
   wenchiehlee1020/chromium:v1.0.0
 ```
@@ -106,7 +104,7 @@ docker run -d \
 Once running, verify the Chrome DevTools Protocol endpoint from your local machine:
 
 ```bash
-curl http://<HOST_IP>:9222/json/version
+curl http://127.0.0.1:9222/json/version
 ```
 
 Example JSON response:
