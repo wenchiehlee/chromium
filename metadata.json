@@ -1,0 +1,7 @@
+{
+  "name": "chromium",
+  "description": "Custom Chromium container for Synology NAS with pre-installed Traditional and Simplified Chinese fonts and supervised CDP 9222 proxy.",
+  "version": "1.0.0",
+  "maintainer": "wenchiehlee",
+  "base_image": "linuxserver/chromium:amd64-50ba601b-ls108"
+}
